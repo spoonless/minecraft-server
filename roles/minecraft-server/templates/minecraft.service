@@ -1,0 +1,28 @@
+[Unit]
+Description=Minecraft Server
+Documentation=
+
+Wants=network.target
+After=network.target
+
+[Service]
+User=minecraft
+Group=minecraft
+Nice=5
+#EnvironmentFile=-/var/minecraft/unit.conf
+KillMode=none
+SuccessExitStatus=0 1
+
+ProtectHome=true
+ProtectSystem=full
+PrivateDevices=true
+NoNewPrivileges=true
+PrivateTmp=true
+InaccessibleDirectories=/root /sys /srv -/opt /media -/lost+found
+ReadWriteDirectories={{minecraft_home}}
+WorkingDirectory={{minecraft_home}}
+ExecStart=/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dminecraft.server=true -Xmx1024M -Xms1024M -jar {{minecraft_home}}/minecraft_server.{{minecraft_version}}.jar nogui
+ExecStop=ps a | grep '-Dminecraft.server=true' | cut -f1 -d' ' | xarg kill
+
+[Install]
+WantedBy=multi-user.target
