@@ -1,3 +1,3 @@
 #!/bin/sh
 
-ps a | grep '-Dminecraft.server=true' | cut -f1 -d' ' | xargs kill
+jps | grep minecraft_server | cut -d' ' -f 1 | xargs kill
