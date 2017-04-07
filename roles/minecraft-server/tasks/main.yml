@@ -16,19 +16,39 @@
     owner: minecraft
     mode: u+rwx
 
-- name: copie du fichier unit Systemd pour le serveur minecraft
-  template:
-    src: 'roles/minecraft-server/templates/minecraft.service'
-    dest: '/etc/systemd/system/minecraft.service'
-  notify:
-    - activer minecraft
-
 - name: copie du fichier eula.txt pour le serveur minecraft
   template:
     src: 'roles/minecraft-server/templates/eula.txt'
     dest: '{{ minecraft_home }}/eula.txt'
     owner: minecraft
     group: minecraft
+  notify:
+    - activer minecraft
+
+- name: copie du fichier de lancement de minecraft
+  template:
+    src: 'roles/minecraft-server/templates/start_minecraft.sh'
+    dest: '{{ minecraft_home }}/start_minecraft.sh'
+    owner: minecraft
+    group: minecraft
+    mode: u+rwx
+  notify:
+    - activer minecraft
+
+- name: copie du fichier d'arret de minecraft
+  template:
+    src: 'roles/minecraft-server/templates/stop_minecraft.sh'
+    dest: '{{ minecraft_home }}/stop_minecraft.sh'
+    owner: minecraft
+    group: minecraft
+    mode: u+rwx
+  notify:
+    - activer minecraft
+
+- name: copie du fichier unit Systemd pour le serveur minecraft
+  template:
+    src: 'roles/minecraft-server/templates/minecraft.service'
+    dest: '/etc/systemd/system/minecraft.service'
   notify:
     - activer minecraft
 
