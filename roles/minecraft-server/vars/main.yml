@@ -1,3 +1,3 @@
-minecraft_home: "/var/minecraft"
+minecraft_home: "/var/lib/minecraft"
 minecraft_version: "1.11.2"
 minecraft_url: "https://s3.amazonaws.com/Minecraft.Download/versions/{{ minecraft_version }}/minecraft_server.{{ minecraft_version }}.jar"
