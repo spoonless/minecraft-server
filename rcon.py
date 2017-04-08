@@ -4,12 +4,8 @@
 import sys
 import getpass
 import socket
+import cmd
 from struct import pack, unpack
-
-try:
-    input = raw_input
-except NameError:
-    pass
 
 DEFAULT_PORT = 25575
 
@@ -57,6 +53,28 @@ class MinecraftClient():
     def __exit__(self, type, value, traceback):
         self.disconnect()
 
+
+class MinecraftClientCmd(cmd.Cmd):
+    intro = "Remote Minecraft server console\nquit or exit to finish\n"
+    prompt = ">> "
+
+    def __init__(self, client):
+        cmd.Cmd.__init__(self)
+        self.client = client
+
+    def do_help(self, line):
+        self.default("/help " + line)
+
+    def do_exit(self, line):
+        return True
+
+    def do_quit(self, line):
+        return True
+
+    def default(self, line):
+        print(self.client.command(line))
+
+
 if __name__ == "__main__" :
     args = sys.argv[1:]
 
@@ -70,8 +88,4 @@ if __name__ == "__main__" :
 
     with MinecraftClient(host, port) as c:
         c.authenticate(getpass.getpass())
-        while 1:
-            line = input(">> ")
-            if line == 'quit':
-                break
-            print(c.command(line))
+        MinecraftClientCmd(c).cmdloop()
