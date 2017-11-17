@@ -11,7 +11,7 @@ if [ $(lxc list -c n | grep -c "| *$CONTAINER_NAME *|") == 1 ]
 then
   echo "Un conteneur porte déja ce nom..."
 else
-  lxc launch images:ubuntu/yakkety/amd64 "$CONTAINER_NAME"
+  lxc launch images:ubuntu/xenial/amd64 "$CONTAINER_NAME"
   sleep 5
 fi
 
